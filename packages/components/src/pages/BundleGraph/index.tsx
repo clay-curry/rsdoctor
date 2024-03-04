@@ -3,7 +3,7 @@ import { SDK } from '@rsdoctor/types';
 import { withServerAPI } from '../../components/Manifest';
 
 import { Row, Col } from 'antd';
-import { WebpackModulesOverall } from './components';
+import { WebpackNodeUI } from './components';
 import { Size } from 'src/constants';
 
 interface Props {
@@ -15,7 +15,7 @@ const Component: React.FC<Props> = ({ project }) => {
   return (
     <Row>
       <Col span={24} style={{ marginBottom: Size.BasePadding }}>
-        <WebpackModulesOverall />
+        <WebpackNodeUI cwd={'foo'} />
       </Col>
     </Row>
   );
