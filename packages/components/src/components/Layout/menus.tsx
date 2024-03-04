@@ -23,7 +23,6 @@ import {
   LoaderFiles,
   PluginsAnalyze,
   ModuleResolve,
-  BundleGraph,
   LoaderTimeline,
 } from 'src/pages';
 import { CompileName } from './constants';
