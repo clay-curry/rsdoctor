@@ -1,7 +1,15 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { Overall, BundleSize, LoaderFiles, PluginsAnalyze, ModuleResolve, LoaderTimeline, RuleIndex } from '@rsdoctor/components/pages';
-
+import {
+  Overall,
+  BundleSize,
+  LoaderFiles,
+  PluginsAnalyze,
+  BundleGraph,
+  ModuleResolve,
+  LoaderTimeline,
+  RuleIndex,
+} from '@rsdoctor/components/pages';
 
 export default function Router(): React.ReactElement {
   const routes = [
@@ -39,6 +47,7 @@ export default function Router(): React.ReactElement {
     <Routes>
       <Route path="/" element={<Overall.Page />} />
       <Route path={Overall.route} element={<Overall.Page />} />
+      <Route path={BundleGraph.route} element={<BundleGraph.Page />} />
       {routes.map((e) => (
         <Route key={e.path} path={e.path} element={e.element} />
       ))}

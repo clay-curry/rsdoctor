@@ -15,6 +15,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import WebpackIcon from 'src/common/imgs/webpack.svg';
 import { Size } from '../../constants';
 import * as OverallConstants from '../../pages/Overall/constants';
+import * as BundleGraphConstants from '../../pages/BundleGraph/constants';
 import { useI18n, hasBundle, hasCompile } from '../../utils';
 import { withServerAPI } from '../Manifest';
 import {
@@ -22,6 +23,7 @@ import {
   LoaderFiles,
   PluginsAnalyze,
   ModuleResolve,
+  BundleGraph,
   LoaderTimeline,
 } from 'src/pages';
 import { CompileName } from './constants';
@@ -55,6 +57,20 @@ const MenusBase: React.FC<{
     items.push({
       label: t(OverallConstants.name),
       key: OverallConstants.route,
+      icon: <BarChartOutlined style={iconStyle} />,
+      children: [],
+      onTitleClick(e) {
+        navigate(e.key);
+      },
+    });
+  }
+
+  if (
+    includes(enableRoutes, Manifest.RsdoctorManifestClientRoutes.BundleGraph)
+  ) {
+    items.push({
+      label: t(BundleGraphConstants.name),
+      key: BundleGraphConstants.route,
       icon: <BarChartOutlined style={iconStyle} />,
       children: [],
       onTitleClick(e) {

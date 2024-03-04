@@ -37,6 +37,7 @@ export interface RsdoctorManifestData extends StoreData {}
 
 export enum RsdoctorManifestClientRoutes {
   Overall = 'Overall',
+  BundleGraph = 'BundleGraph',
   WebpackLoaders = 'Compile.WebpackLoaders',
   ModuleResolve = 'Compile.ModuleResolve',
   WebpackPlugins = 'Compile.WebpackPlugins',

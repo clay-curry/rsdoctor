@@ -8,6 +8,7 @@ export enum RsdoctorClientRoutes {
   WebpackLoaderOverall = '/webpack/loaders/overall',
   WebpackLoaderAnalysis = '/webpack/loaders/analysis',
   ModuleResolve = '/module/resolve',
+  BundleGraph = '/bundle/graph',
   WebpackPlugins = '/webpack/plugins',
   BundleSize = '/bundle/size',
   ModuleAnalyze = '/module/analyze',

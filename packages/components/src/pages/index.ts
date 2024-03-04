@@ -5,4 +5,5 @@ export * as LoaderTimeline from './WebpackLoaders/Overall';
 export * as LoaderFiles from './WebpackLoaders/Analysis';
 export * as PluginsAnalyze from './WebpackPlugins';
 export * as ModuleResolve from './ModuleResolve';
+export * as BundleGraph from './BundleGraph';
 export * as RuleIndex from './Resources/RuleIndex';

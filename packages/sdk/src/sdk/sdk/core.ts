@@ -30,6 +30,7 @@ export abstract class SDKCore<T extends RsdoctorSDKOptions>
 
   private _clientRoutes: Set<Manifest.RsdoctorManifestClientRoutes> = new Set([
     Manifest.RsdoctorManifestClientRoutes.Overall,
+    Manifest.RsdoctorManifestClientRoutes.BundleGraph,
   ]);
 
   private _outputDir: string;

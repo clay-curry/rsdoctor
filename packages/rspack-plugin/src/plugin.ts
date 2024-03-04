@@ -125,6 +125,7 @@ export class RsdoctorRspackPlugin<Rules extends Linter.ExtendRuleData[]>
 
     this.sdk.addClientRoutes([
       ManifestType.RsdoctorManifestClientRoutes.Overall,
+      ManifestType.RsdoctorManifestClientRoutes.BundleGraph,
     ]);
 
     this.sdk.setOutputDir(
