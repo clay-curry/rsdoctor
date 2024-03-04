@@ -1,13 +1,24 @@
 import React from 'react';
 import { SDK } from '@rsdoctor/types';
 import { withServerAPI } from '../../components/Manifest';
+
+import { Row, Col } from 'antd';
+import { WebpackModulesOverall } from './components';
+import { Size } from 'src/constants';
+
 interface Props {
   project: SDK.ServerAPI.InferResponseType<SDK.ServerAPI.API.GetProjectInfo>;
 }
 
 const Component: React.FC<Props> = ({ project }) => {
   console.log(project);
-  return <div></div>;
+  return (
+    <Row>
+      <Col span={24} style={{ marginBottom: Size.BasePadding }}>
+        <WebpackModulesOverall />
+      </Col>
+    </Row>
+  );
 };
 
 export const Page = withServerAPI({
