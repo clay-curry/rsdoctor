@@ -3,26 +3,30 @@ import { SDK } from '@rsdoctor/types';
 import { withServerAPI } from '../../components/Manifest';
 
 import { Row, Col } from 'antd';
-import { WebpackNodeUI } from './components';
 import { Size } from 'src/constants';
+import { makeChart } from './components/forceDirectedTree';
 
 interface Props {
-  project: SDK.ServerAPI.InferResponseType<SDK.ServerAPI.API.GetProjectInfo>;
+  project: SDK.ServerAPI.InferResponseType<SDK.ServerAPI.API.GetAllModuleGraph>;
 }
 
 const Component: React.FC<Props> = ({ project }) => {
   console.log(project);
+  const Chart = makeChart(project);
+
   return (
     <Row>
       <Col span={24} style={{ marginBottom: Size.BasePadding }}>
-        <WebpackNodeUI cwd={'foo'} />
+        <div>
+          <>{Chart}</>
+        </div>
       </Col>
     </Row>
   );
 };
 
 export const Page = withServerAPI({
-  api: SDK.ServerAPI.API.GetProjectInfo,
+  api: SDK.ServerAPI.API.GetAllModuleGraph,
   responsePropName: 'project',
   Component,
 });

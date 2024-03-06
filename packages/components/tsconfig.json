@@ -4,6 +4,7 @@
     "baseUrl": "./",
     "jsx": "react-jsx",
     "isolatedModules": true,
+    "allowJs": true,
     "declaration": true,
     "composite": true,
     "rootDir": "src",

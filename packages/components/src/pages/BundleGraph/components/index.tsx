@@ -1,24 +1,15 @@
 import { SDK } from '@rsdoctor/types';
-import {
-  Card,
-  Col,
-  Row,
-  Space,
-  Radio,
-  Tag,
-  Tooltip,
-  Typography,
-  Empty,
-} from 'antd';
+import { Card, Col, Row, Space, Radio, Tag, Tooltip, Typography } from 'antd';
 import React, { useState } from 'react';
 import { ServerAPIProvider, withServerAPI } from '../../../components/Manifest';
 import { Title } from '../../../components/Title';
 import { Size } from '../../../constants';
-
 import './index.sass';
 import { NodeType } from '../constants';
 
-const largeCardBodyHeight = 800;
+// import HierarchicalEdgeBundling from './hierarchicalEdgeBundling';
+
+// const largeCardBodyHeight = 800;
 
 interface WebpackNodeUIProps {
   cwd: string;
@@ -40,40 +31,38 @@ export const WebpackNodeUI: React.FC<WebpackNodeUIProps> = ({ cwd }) => {
         buttonStyle="solid"
         optionType="button"
       >
-        <Radio.Button value="module">Module Dependency Graph</Radio.Button>
-        <Radio.Button value="chunk">Chunk Dependency Graph</Radio.Button>
+        <Radio.Button value="modules">Modules</Radio.Button>
+        <Radio.Button value="chunks">Chunks</Radio.Button>
+        <Radio.Button value="Assets">Assets</Radio.Button>
+        <Radio.Button value="Warning">Warnings</Radio.Button>
+        <Radio.Button value="Errors">Errors</Radio.Button>
+        <Radio.Button value="Hints">Hints</Radio.Button>
       </Radio.Group>
-      <ModuleDependencyGraph graphType={graphType} />
+      <ModuleBundleGraph graphType={graphType} />
       <ChunkDependencyGraph graphType={graphType} cwd={cwd} />
+      <BuildAssets graphType={graphType} cwd={cwd} />
+      <WarningMessages graphType={graphType} cwd={cwd} />
+      <ErrorMessages graphType={graphType} cwd={cwd} />
+      <HintMessages graphType={graphType} cwd={cwd} />
     </React.Fragment>
   );
 };
 
-function ModuleDependencyGraph({ graphType }: { graphType: NodeType }) {
+function ModuleBundleGraph({ graphType }: { graphType: NodeType }) {
   return (
     <Card
-      hidden={graphType !== 'module'}
+      hidden={graphType !== 'modules'}
       title={
         <Space>
-          <Title text="From: Bundle Graph" />
+          <Title text="Modules: Entry Points" />
         </Space>
       }
     >
       {/* TODO: add loading icon. */}
-      <ServerAPIProvider api={SDK.ServerAPI.API.GetTileReportHtml} body={{}}>
-        {(data) => {
-          if (data && graphType === 'module') {
-            return (
-              <iframe
-                srcDoc={data}
-                width={'100%'}
-                height={largeCardBodyHeight}
-                style={{ border: 'none' }}
-              />
-            );
-          }
-          return <Empty />;
-        }}
+      <ServerAPIProvider api={SDK.ServerAPI.API.GetAllModuleGraph} body={{}}>
+        {
+          //(response) => response
+        }
       </ServerAPIProvider>
     </Card>
   );
@@ -88,10 +77,160 @@ function ChunkDependencyGraph({
 }) {
   return (
     <Card
-      hidden={graphType !== 'chunk'}
+      hidden={graphType !== 'chunks'}
       title={
         <Space>
           <Title text="Chunk Imports" />
+          <Tooltip
+            color={'white'}
+            title={
+              <Space direction="vertical" color="white">
+                <Row>
+                  <Col>
+                    <Tag color="cyan" style={{ margin: 0 }}>
+                      initial
+                    </Tag>
+                    <Typography.Text>
+                      : Indignify whether the chunk is the initial chunk.
+                    </Typography.Text>
+                  </Col>
+                </Row>
+              </Space>
+            }
+            style={{ marginLeft: 3 }}
+          >
+            {cwd}
+          </Tooltip>
+        </Space>
+      }
+    ></Card>
+  );
+}
+
+function BuildAssets({ graphType, cwd }: { graphType: NodeType; cwd: string }) {
+  return (
+    <Card
+      hidden={graphType !== 'assets'}
+      title={
+        <Space>
+          <Title text="Build Assets" />
+          <Tooltip
+            color={'white'}
+            title={
+              <Space direction="vertical" color="white">
+                <Row>
+                  <Col>
+                    <Tag color="cyan" style={{ margin: 0 }}>
+                      initial
+                    </Tag>
+                    <Typography.Text>
+                      : Indignify whether the chunk is the initial chunk.
+                    </Typography.Text>
+                  </Col>
+                </Row>
+              </Space>
+            }
+            style={{ marginLeft: 3 }}
+          >
+            {cwd}
+          </Tooltip>
+        </Space>
+      }
+    ></Card>
+  );
+}
+
+function WarningMessages({
+  graphType,
+  cwd,
+}: {
+  graphType: NodeType;
+  cwd: string;
+}) {
+  return (
+    <Card
+      hidden={graphType !== 'warnings'}
+      title={
+        <Space>
+          <Title text="Warning Messages" />
+          <Tooltip
+            color={'white'}
+            title={
+              <Space direction="vertical" color="white">
+                <Row>
+                  <Col>
+                    <Tag color="cyan" style={{ margin: 0 }}>
+                      initial
+                    </Tag>
+                    <Typography.Text>
+                      : Indignify whether the chunk is the initial chunk.
+                    </Typography.Text>
+                  </Col>
+                </Row>
+              </Space>
+            }
+            style={{ marginLeft: 3 }}
+          >
+            {cwd}
+          </Tooltip>
+        </Space>
+      }
+    ></Card>
+  );
+}
+
+function ErrorMessages({
+  graphType,
+  cwd,
+}: {
+  graphType: NodeType;
+  cwd: string;
+}) {
+  return (
+    <Card
+      hidden={graphType !== 'errors'}
+      title={
+        <Space>
+          <Title text="Error Messages" />
+          <Tooltip
+            color={'white'}
+            title={
+              <Space direction="vertical" color="white">
+                <Row>
+                  <Col>
+                    <Tag color="cyan" style={{ margin: 0 }}>
+                      initial
+                    </Tag>
+                    <Typography.Text>
+                      : Indignify whether the chunk is the initial chunk.
+                    </Typography.Text>
+                  </Col>
+                </Row>
+              </Space>
+            }
+            style={{ marginLeft: 3 }}
+          >
+            {cwd}
+          </Tooltip>
+        </Space>
+      }
+    ></Card>
+  );
+}
+
+function HintMessages({
+  graphType,
+  cwd,
+}: {
+  graphType: NodeType;
+  cwd: string;
+}) {
+  return (
+    <Card
+      hidden={graphType !== 'hints'}
+      title={
+        <Space>
+          <Title text="Hints" />
           <Tooltip
             color={'white'}
             title={

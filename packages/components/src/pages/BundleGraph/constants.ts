@@ -6,4 +6,10 @@ export const route = Client.RsdoctorClientRoutes.BundleGraph;
 
 export const maxModuleSize = 5000;
 
-export type NodeType = 'module' | 'chunk';
+export type NodeType =
+  | 'modules'
+  | 'chunks'
+  | 'assets'
+  | 'warnings'
+  | 'errors'
+  | 'hints';
