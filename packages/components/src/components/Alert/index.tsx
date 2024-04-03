@@ -7,7 +7,7 @@ import { CodeViewAlert } from './view';
 
 import { AlertProps } from './types';
 
-import './index.sass';
+import './index.scss';
 
 export const Alert: React.FC<AlertProps> = (props) => {
   const { data, cwd = '' } = props;

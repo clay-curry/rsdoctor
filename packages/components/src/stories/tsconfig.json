@@ -1,0 +1,11 @@
+{
+  "include": ["./**/*.ts", "./**/*.tsx"],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "jsx": "react-jsx",
+    "esModuleInterop": true,
+    "paths": {
+      "@src/*": ["../src/*"]
+    }
+  }
+}
