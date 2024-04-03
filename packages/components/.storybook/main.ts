@@ -20,64 +20,84 @@ const config: StorybookConfig = {
     autodocs: 'tag',
   },
   typescript: {
-    reactDocgenTypescriptOptions: {
-      include: ['../src/stories/**/*.ts', '../src/stories/**/*.tsx'],
-      compilerOptions: {
-        target: ScriptTarget.ESNext,
-        jsx: JsxEmit.ReactJSX,
-        allowSyntheticDefaultImports: true,
-      },
-    },
+    check: false,
+    skipCompiler: true,
   },
   webpack: async (config) => {
+    config.stats = 'verbose';
+
     if (config.module?.rules) {
-      config.module.rules.push({
-        // Replaces existing CSS rules to support PostCSS
-        test: /\.css$/i,
-        use: [
-          'style-loader',
-          {
-            loader: 'css-loader',
-            options: {
-              modules: true,
-              importLoaders: 1,
+      config.module.rules = [
+        ...config.module.rules,
+        {
+          test: /\.tsx?$/,
+          use: [
+            {
+              loader: 'ts-loader',
+              options: {
+                transpileOnly: true,
+              },
             },
-          },
-          'postcss-loader',
-        ],
-      });
-      config.module.rules.push({
-        test: /\.s[ac]ss$/i,
-        use: [
-          'style-loader',
-          'css-loader',
-          {
-            loader: 'sass-loader',
-            options: {
-              api: 'modern',
+          ],
+          exclude: /node_modules/,
+        },
+        {
+          test: /\.module\.s(a|c)ss$/,
+          use: [
+            'style-loader',
+            {
+              loader: 'css-loader',
+              options: {
+                modules: true,
+                sourceMap: true,
+              },
             },
-          },
-        ],
-      });
-      config.module.rules.push({
-        test: /\.less$/i,
-        use: [
-          'style-loader',
-          'css-loader',
-          {
-            loader: 'less-loader',
-            options: { implementation: require.resolve('less') },
-          },
-        ],
-      });
+            {
+              loader: 'sass-loader',
+              options: {
+                sourceMap: true,
+              },
+            },
+          ],
+        },
+        {
+          test: /\.s(a|c)ss$/,
+          exclude: /\.module\.(s(a|c)ss)$/,
+          use: [
+            'style-loader',
+            'css-loader',
+            {
+              loader: 'sass-loader',
+              options: {
+                sourceMap: true,
+              },
+            },
+          ],
+        },
+        {
+          test: /\.(png|svg|jpg|jpeg|gif)$/i,
+          type: 'asset/resource',
+        },
+      ];
     }
 
-    if (config.resolve?.extensionAlias) {
-      config.resolve.extensionAlias = {
-        '.scss': ['sass'],
-        '.sass': ['scss'],
-        '.less': ['css'],
+    if (config.resolve?.fallback) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        zlib: require.resolve('browserify-zlib'),
+        tty: require.resolve('tty-browserify'),
       };
+    }
+
+    if (config.resolve?.extensions) {
+      config.resolve.extensions.concat([
+        '.js',
+        '.jsx',
+        '.ts',
+        '.tsx',
+        '.md',
+        '.mdx',
+      ]);
     }
 
     if (config.plugins) {
@@ -180,83 +200,20 @@ class RewriteModuleSpecifierPlugin {
   }
 
   apply(compiler) {
+    const rewrites = this.rewrites;
     // once the normal module factory is created, we can tap into the module hook
-    compiler.hooks.normalModuleFactory.tap(
-      'RewriteModuleSpecifierPlugin',
-      (nmf) => {
-        nmf.hooks.beforeResolve.tap(
-          'NormalModuleReplacementPlugin',
-          (result) => {
-            const rewriteRules = this.rewrites.filter(
-              ({ issuer }) => issuer === result.contextInfo.issuer,
-            );
-            if (rewriteRules.length === 0) return;
+    compiler.resolverFactory.hooks.resolver
+      .for('normal')
+      .tap('RewriteModuleFactoryPlugin', (resolver) => {
+        resolver.hooks.result.tap('RewriteModuleResolverPlugin', (result) => {
+          const alias = rewrites
+            .filter(({ issuer }) => result.context.issuer === issuer)
+            .filter(({ specifier }) => result.__innerRequest === specifier)
+            .map(({ resolution }) => ({ resolution }))
+            .pop();
 
-            const moduleSpecifier = path.resolve(
-              result.contextInfo.issuer,
-              result.request,
-            );
-            const moduleResolution = rewriteRules.filter(
-              ({ specifier }) => specifier === moduleSpecifier,
-            );
-            if (moduleResolution.length > 0)
-              result.request = moduleResolution[0].resolution;
-          },
-        );
-
-        nmf.hooks.afterResolve.tap(
-          'NormalModuleReplacementPlugin',
-          (result) => {
-            const issuerRules = this.rewrites.filter(
-              ({ issuer }) => issuer === result.contextInfo.issuer,
-            );
-            if (issuerRules.length === 0) return;
-
-            const specifierRewriteRules = issuerRules.filter(({ specifier }) =>
-              result.createData.resource.includes(specifier),
-            );
-            if (specifierRewriteRules.length === 0) return;
-
-            const fs = compiler.inputFileSystem;
-            const moduleResolution = specifierRewriteRules[0].resolution;
-            result.createData.resource = join(
-              fs,
-              dirname(fs, result.createData.resource),
-              moduleResolution,
-            );
-          },
-        );
-      },
-    );
+          return alias || result;
+        });
+      });
   }
 }
-
-const dirname = (fs, absPath) => {
-  if (fs && fs.dirname) {
-    return fs.dirname(absPath);
-  }
-  if (path.posix.isAbsolute(absPath)) {
-    return path.posix.dirname(absPath);
-  }
-  if (path.win32.isAbsolute(absPath)) {
-    return path.win32.dirname(absPath);
-  }
-  throw new Error(
-    `${absPath} is neither a posix nor a windows path, and there is no 'dirname' method defined in the file system`,
-  );
-};
-
-const join = (fs, rootPath, filename) => {
-  if (fs && fs.join) {
-    return fs.join(rootPath, filename);
-  }
-  if (path.posix.isAbsolute(rootPath)) {
-    return path.posix.join(rootPath, filename);
-  }
-  if (path.win32.isAbsolute(rootPath)) {
-    return path.win32.join(rootPath, filename);
-  }
-  throw new Error(
-    `${rootPath} is neither a posix nor a windows path, and there is no 'join' method defined in the file system`,
-  );
-};

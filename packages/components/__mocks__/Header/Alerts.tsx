@@ -9,7 +9,7 @@ import {
 } from '@ant-design/icons';
 import Dialog from 'rc-dialog';
 import Ansi from 'ansi-to-react';
-import { Size, Color } from '@src/constants';
+import { Size, Color } from 'src/constants';
 
 import 'rc-dialog/assets/index.css';
 

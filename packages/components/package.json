@@ -51,6 +51,7 @@
     "node_modules/",
     "dist/"
   ],
+  "resolutions": {},
   "devDependencies": {
     "@ant-design/icons": "4.8.0",
     "@babel/core": "latest",
@@ -86,6 +87,7 @@
     "dayjs": "1.11.6",
     "echarts": "^5.4.3",
     "echarts-for-react": "^3.0.2",
+    "file-loader": "^6.2.0",
     "html-webpack-plugin": "latest",
     "i18next": "22.0.4",
     "less-loader": "^11.1.4",
@@ -103,6 +105,7 @@
     "react-json-view": "1.21.3",
     "react-markdown": "^9.0.1",
     "react-router-dom": "6.4.3",
+    "sass": "^1.72.0",
     "sass-loader": "^14.1.1",
     "socket.io-client": "4.6.1",
     "storybook": "latest",
@@ -117,5 +120,10 @@
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
+  },
+  "dependencies": {
+    "browserify-zlib": "^0.2.0",
+    "ts-loader": "^9.5.1",
+    "tty-browserify": "^0.0.1"
   }
 }
