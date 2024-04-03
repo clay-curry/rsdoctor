@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Button } from './Button';
-import './header.css';
+import './acmeheader.css';
 
 type User = {
   name: string;
@@ -14,7 +14,7 @@ interface HeaderProps {
   onCreateAccount?: () => void;
 }
 
-export const Header = ({
+export const AcmeHeader = ({
   user,
   onLogin,
   onLogout,
