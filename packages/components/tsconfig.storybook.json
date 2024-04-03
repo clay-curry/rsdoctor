@@ -1,0 +1,16 @@
+{
+  "include": ["__mocks__/**/*", ".storybook/**/*", "src/**/*"],
+  "exclude": ["node_modules"],
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "rootDirs": ["src", "__mocks__", ".storybook"],
+    "jsx": "react-jsx",
+    "esModuleInterop": true,
+    "explainFiles": true,
+
+    "paths": {
+      "src/*": ["./*"],
+      "src": ["./"]
+    }
+  }
+}

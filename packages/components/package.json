@@ -123,7 +123,9 @@
   },
   "dependencies": {
     "browserify-zlib": "^0.2.0",
+    "os-browserify": "^0.3.0",
     "ts-loader": "^9.5.1",
-    "tty-browserify": "^0.0.1"
+    "tty-browserify": "^0.0.1",
+    "url-loader": "^4.1.1"
   }
 }
