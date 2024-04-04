@@ -1,12 +1,15 @@
-import React from 'react';
-import { Header } from '../components/Layout/header';
+import { Header as H } from '../components/Layout/header';
 
 interface HeaderProps {
   preferredLanguage?: 'en' | 'cn';
 }
 
-function UncoupledHeader({ preferredLanguage }: HeaderProps) {
-  return <Header />;
+function Header() {
+  return (
+    <div>
+      <H />
+    </div>
+  );
 }
 
-export { UncoupledHeader, HeaderProps };
+export { Header, HeaderProps };

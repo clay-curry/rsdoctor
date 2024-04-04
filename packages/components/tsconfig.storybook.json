@@ -1,16 +1,18 @@
 {
-  "include": ["__mocks__/**/*", ".storybook/**/*", "src/**/*"],
-  "exclude": ["node_modules"],
+  "include": ["__mocks__/**/*", ".storybook/**/*", "src/stories/**/*"],
+  "exclude": ["**/node_modules/**/*"],
   "compilerOptions": {
-    "baseUrl": "./src",
-    "rootDirs": ["src", "__mocks__", ".storybook"],
+    "baseUrl": "./",
+    "rootDir": "./",
+    "target": "ESNext",
+    "outDir": "dist",
     "jsx": "react-jsx",
     "esModuleInterop": true,
     "explainFiles": true,
-
+    "moduleResolution": "Node16",
+    "module": "Node16",
     "paths": {
-      "src/*": ["./*"],
-      "src": ["./"]
+      "src/*": ["./src/*"]
     }
   }
 }

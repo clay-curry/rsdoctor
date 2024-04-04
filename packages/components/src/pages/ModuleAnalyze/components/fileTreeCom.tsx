@@ -1,4 +1,9 @@
-import { InfoCircleOutlined, MinusCircleOutlined, PlusCircleOutlined, RightSquareTwoTone } from '@ant-design/icons';
+import {
+  InfoCircleOutlined,
+  MinusCircleOutlined,
+  PlusCircleOutlined,
+  RightSquareTwoTone,
+} from '@ant-design/icons';
 import { SDK } from '@rsdoctor/types';
 import { Popover, Space, Tag, Typography } from 'antd';
 import React, { useCallback } from 'react';
@@ -9,7 +14,7 @@ import { TAG_PALLETE } from 'src/constants';
 
 import { ModuleGraphListContext } from '../../BundleSize/config';
 import { NewTreeNodeType } from '../utils/hooks';
-import './fileTreeCom.sass';
+import './fileTreeCom.scss';
 
 const prefix = 'file-tree-com';
 
@@ -25,7 +30,12 @@ type FileTreeProps = {
 };
 
 export const FileTree: React.FC<FileTreeProps> = (props) => {
-  const { treeData, needJumpto = false, defaultOpened = false, defaultOpenFather = 0 } = props;
+  const {
+    treeData,
+    needJumpto = false,
+    defaultOpened = false,
+    defaultOpenFather = 0,
+  } = props;
 
   const { required, handlers } = useTreeState({
     id: `${prefix}-tree`,
@@ -36,7 +46,9 @@ export const FileTree: React.FC<FileTreeProps> = (props) => {
   });
 
   const renderNode = useCallback(({ node, onToggle }: DefaultNodeProps) => {
-    defaultOpenFather && node.data.level < defaultOpenFather && node.setOpened(true);
+    defaultOpenFather &&
+      node.data.level < defaultOpenFather &&
+      node.setOpened(true);
 
     return (
       <div className={`${prefix}-titles-box`} key={node.data.name}>
@@ -57,7 +69,10 @@ export const FileTree: React.FC<FileTreeProps> = (props) => {
                       content={
                         <>
                           {node.data.__RESOURCEPATH__ ? (
-                            <Typography.Text key={`${node.data.name}-popover-path`} code>
+                            <Typography.Text
+                              key={`${node.data.name}-popover-path`}
+                              code
+                            >
                               {node.data.__RESOURCEPATH__}
                             </Typography.Text>
                           ) : (

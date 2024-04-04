@@ -1,6 +1,7 @@
 import path from 'path';
-import { JsxEmit, ScriptTarget } from 'typescript';
 import type { StorybookConfig } from '@storybook/react-webpack5';
+import TsconfigPathsPluginWrapper from 'tsconfig-paths-webpack-plugin';
+const TsconfigPathsPlugin = TsconfigPathsPluginWrapper.TsconfigPathsPlugin;
 
 const config: StorybookConfig = {
   stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
@@ -36,10 +37,6 @@ const config: StorybookConfig = {
               loader: 'ts-loader',
               options: {
                 transpileOnly: true,
-                configFile: path.resolve(
-                  __dirname,
-                  '../tsconfig.storybook.json',
-                ),
               },
             },
           ],
@@ -87,7 +84,8 @@ const config: StorybookConfig = {
             {
               loader: 'sass-loader',
               options: {
-                sourceMap: true,
+                // Prefer `dart-sass`
+                implementation: require('sass'),
               },
             },
           ],
@@ -99,6 +97,13 @@ const config: StorybookConfig = {
       ];
     }
 
+    if (config.resolve.alias) {
+      config.resolve.alias = {
+        ...config.resolve.alias,
+        src: path.resolve(__dirname, '../src'),
+      };
+    }
+
     if (config.resolve?.fallback) {
       config.resolve.fallback = {
         ...config.resolve.fallback,
@@ -106,6 +111,14 @@ const config: StorybookConfig = {
         tty: require.resolve('tty-browserify'),
         os: require.resolve('os-browserify/browser'),
       };
+    }
+
+    if (config.resolve?.plugins) {
+      config.resolve.plugins.push(
+        new TsconfigPathsPlugin({
+          configFile: path.resolve(__dirname, '../tsconfig.storybook.json'),
+        }),
+      );
     }
 
     if (config.resolve?.extensions) {
@@ -116,6 +129,7 @@ const config: StorybookConfig = {
         '.tsx',
         '.md',
         '.mdx',
+        '.scss',
       ]);
     }
 
@@ -189,6 +203,8 @@ const config: StorybookConfig = {
             ),
             resolution: path.resolve(__dirname, '../__mocks__/Header/utils.ts'),
           },
+
+          // menus aliases
           {
             issuer: path.resolve(
               __dirname,

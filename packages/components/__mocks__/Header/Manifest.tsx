@@ -1,12 +1,12 @@
 import React from 'react';
 
-export const withServerAPI = ({
+export const Menus = ({
   Component,
   ...props
 }: {
   Component: React.JSXElementConstructor<any>;
 }) => (
   <>
-    <Component {...props} />
+    <div>Hello</div>
   </>
 );

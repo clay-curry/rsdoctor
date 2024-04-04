@@ -7,7 +7,7 @@ import { getShortPath } from 'src/utils';
 import { values } from 'lodash-es';
 import { ModuleGraphListContext } from '../BundleSize/config';
 import { ModuleFilesTree } from './fileTree';
-import './index.sass';
+import './index.scss';
 
 export const ModuleAnalyzeComponent: React.FC<{
   modules: SDK.ModuleData[];
@@ -16,7 +16,10 @@ export const ModuleAnalyzeComponent: React.FC<{
 }> = ({ modules, cwd, moduleId }) => {
   const [selectedChunk, setSelectedChunk] = useState('' as string);
   return (
-    <ServerAPIProvider api={SDK.ServerAPI.API.GetModuleDetails} body={{ moduleId: +moduleId }}>
+    <ServerAPIProvider
+      api={SDK.ServerAPI.API.GetModuleDetails}
+      body={{ moduleId: +moduleId }}
+    >
       {({ module, dependencies }) => {
         return (
           <ServerAPIProvider api={SDK.ServerAPI.API.GetAllChunkGraph} body={{}}>
@@ -35,7 +38,11 @@ export const ModuleAnalyzeComponent: React.FC<{
                               }}
                             />
 
-                            <Typography.Title code level={5} style={{ marginBottom: 'revert' }}>
+                            <Typography.Title
+                              code
+                              level={5}
+                              style={{ marginBottom: 'revert' }}
+                            >
                               {`Current Module:  ${getShortPath(module.path)}`}
                             </Typography.Title>
                           </Space>
@@ -49,7 +56,10 @@ export const ModuleAnalyzeComponent: React.FC<{
                               placeholder="Select Chunk To Filter Modules Links"
                               showSearch
                               style={{ width: 300 }}
-                              options={values(chunks).map((e) => ({ label: e.name, value: e.id }))}
+                              options={values(chunks).map((e) => ({
+                                label: e.name,
+                                value: e.id,
+                              }))}
                               onChange={(e) => setSelectedChunk(e)}
                             />
                           </Col>

@@ -4,7 +4,7 @@ import { compact, find } from 'lodash-es';
 import React, { memo, useMemo } from 'react';
 import { getShortPath } from '../../utils';
 import { FileTree } from './components/fileTreeCom';
-import './index.sass';
+import './index.scss';
 
 const DependencyTree: React.FC<{
   module: SDK.ModuleData;
@@ -30,7 +30,13 @@ const DependencyTree: React.FC<{
 
   return (
     <Row justify="start" align="middle">
-      <Col span={24}>{treedata.length ? <FileTree treeData={treedata} needJumpto cwd={cwd} /> : <Empty />}</Col>
+      <Col span={24}>
+        {treedata.length ? (
+          <FileTree treeData={treedata} needJumpto cwd={cwd} />
+        ) : (
+          <Empty />
+        )}
+      </Col>
     </Row>
   );
 };

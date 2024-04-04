@@ -3,7 +3,7 @@ import { Empty, Table, Tag } from 'antd';
 import { compact, orderBy } from 'lodash-es';
 import React, { useMemo } from 'react';
 import { formatSize } from 'src/utils';
-import './index.sass';
+import './index.scss';
 
 type ChunksDataType = {
   key: string | number;
@@ -59,7 +59,16 @@ export const ChunksTable: React.FC<{
 
   return (
     <>
-      {chunksData?.length ? <Table bordered pagination={false} dataSource={chunksData} columns={columns} /> : <Empty />}
+      {chunksData?.length ? (
+        <Table
+          bordered
+          pagination={false}
+          dataSource={chunksData}
+          columns={columns}
+        />
+      ) : (
+        <Empty />
+      )}
     </>
   );
 };

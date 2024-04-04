@@ -12,7 +12,7 @@ import { Col, Menu, Grid, MenuProps, Typography } from 'antd';
 import { includes } from 'lodash-es';
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import WebpackIcon from 'src/common/imgs/webpack.svg';
+import WebpackIcon from '../../common/imgs/webpack.svg';
 import { Size } from '../../constants';
 import * as OverallConstants from '../../pages/Overall/constants';
 import { useI18n, hasBundle, hasCompile } from '../../utils';
@@ -23,7 +23,7 @@ import {
   PluginsAnalyze,
   ModuleResolve,
   LoaderTimeline,
-} from 'src/pages';
+} from '../../pages';
 import { CompileName } from './constants';
 
 const BuilderSwitchName = 'builder-switcher';

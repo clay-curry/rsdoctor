@@ -1,10 +1,15 @@
 import React from 'react';
 import { Space, theme } from 'antd';
-import { FileOutlined, FolderOpenOutlined, FolderOutlined, RightOutlined } from '@ant-design/icons';
+import {
+  FileOutlined,
+  FolderOpenOutlined,
+  FolderOutlined,
+  RightOutlined,
+} from '@ant-design/icons';
 import Tree, { TreeProps } from 'rc-tree';
 import { Size } from '../../constants';
 
-import './index.sass';
+import './index.scss';
 import { useTheme } from '../../utils';
 
 const { useToken } = theme;
@@ -15,7 +20,7 @@ export const FileTree: React.FC<Partial<TreeProps>> = (props) => {
   const { token } = useToken();
   const color = isDark ? token.colorWhite : token.colorText;
   const style = { fontSize: token.fontSize };
-  
+
   return (
     <Tree
       checkable={false}
@@ -26,7 +31,9 @@ export const FileTree: React.FC<Partial<TreeProps>> = (props) => {
             <Space style={{ color }}>
               <RightOutlined
                 twoToneColor={color}
-                className={`file-tree-switcher-arrow ${expanded ? 'file-tree-switcher-arrow-expand' : ''}`}
+                className={`file-tree-switcher-arrow ${
+                  expanded ? 'file-tree-switcher-arrow-expand' : ''
+                }`}
                 style={style}
               />
               {expanded ? (
@@ -37,7 +44,9 @@ export const FileTree: React.FC<Partial<TreeProps>> = (props) => {
             </Space>
           );
         }
-        return <FileOutlined style={{ marginLeft: Size.BasePadding - 6, color }} />;
+        return (
+          <FileOutlined style={{ marginLeft: Size.BasePadding - 6, color }} />
+        );
       }}
       expandAction="click"
       {...props}
